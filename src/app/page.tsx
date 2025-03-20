@@ -43,7 +43,7 @@ export default function Home() {
       url: form.getValues().link,
     });
     const {  id } = response.data;
-    await navigator.clipboard.writeText(`http://localhost:3001/r/${id}`);
+    await navigator.clipboard.writeText(`https://short.curbanii.net/r/${id}`);
     toast.success(texts.copiedToClipboard);
     setLoading(false);
   });
