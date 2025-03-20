@@ -19,6 +19,7 @@ import { LanguageSelector } from "@/internalization/language-selector";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { api } from "@/lib/api";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -38,18 +39,22 @@ export default function Home() {
 
   const onSubmit = form.handleSubmit(async () => {
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const response = await api.post("/api/short-url", {
+      url: form.getValues().link,
+    });
+    const {  id } = response.data;
+    await navigator.clipboard.writeText(`http://localhost:3001/r/${id}`);
     toast.success(texts.copiedToClipboard);
     setLoading(false);
   });
 
   return (
     <>
-      <div className="flex border-b p-4 w-full justify-between items-center fixed top-0 left-0 right-0">
+      <div className="flex border-b bg-background p-4 w-full justify-between items-center fixed top-0 left-0 right-0">
         <span>logo</span>
         <LanguageSelector />
       </div>
-      <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="min-h-dvh flex flex-col justify-center items-center">
         <Toaster position="top-center" />
         <div className="flex flex-col items-center max-w-lg p-4">
           <h1 className="font-bold uppercase text-2xl mb-2 text-center">
