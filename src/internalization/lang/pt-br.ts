@@ -13,4 +13,6 @@ export const ptBr: BaseInternationalization = {
   description: "Fácil e rápido, encurte sua url para compartilhar com qualquer pessoa, obtenha análises sobre seus links, personalize-o",
   freeAndSimpleUrlShortener: "Encurtador de URL gratuito e simples",
   invalidUrl: "Esta não é uma URL válida, por favor insira uma URL válida 🤔",
+  shortenSuccess: "Encurtado com sucesso! 🚀",
+  yourLink: "Seu link",
 };

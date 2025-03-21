@@ -10,4 +10,7 @@ export interface BaseInternationalization {
   description: string;
   freeAndSimpleUrlShortener: string;
   invalidUrl: string;
+  yourLink: string;
+  shortenSuccess: string;
+  
 }

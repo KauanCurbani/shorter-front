@@ -13,4 +13,6 @@ export const en: BaseInternationalization = {
   description: "Easy and fast, short your url to share with anyone, get analitycs about your links, personalize it",
   freeAndSimpleUrlShortener: "Free and simple url shortener",
   invalidUrl: "This is not a valid url, please enter a valid url 🤔",
+  shortenSuccess: "Shorten success! 🚀",
+  yourLink: "Your link",
 };

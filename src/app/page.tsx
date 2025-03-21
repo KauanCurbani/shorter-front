@@ -23,6 +23,7 @@ import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { CopyIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -49,8 +50,8 @@ export default function Home() {
       });
       const { id } = response.data;
       const shortUrl = `${window.location.origin}/r/${id}`;
-      setUrl(shortUrl);
-      toast.success("Shortened successfully");
+      setUrl(shortUrl.replace("https://", "").replace("http://", ""));
+      toast.success(texts.shortenSuccess);
       setLoading(false);
     } catch (e) {
       setLoading(false);
@@ -96,21 +97,21 @@ export default function Home() {
                 )}
               />
               {url && (
-                <div className="w-full flex flex-col items-start mb-4">
-                  <Label>Your link:</Label>
-                  <div className=" bg-muted px-2 py-1.5 rounded-md border flex gap-2 items-center text-sm w-full justify-between">
-                    {url}
-                    <CopyIcon
-                      className="h-4 w-4"
-                      onClick={async () => {
-                        await navigator.clipboard.writeText(url);
-                        toast.success(texts.copiedToClipboard);
-                      }}
-                    />
+                <div className="bg-muted relative px-2 rounded-md border flex items-center text-sm w-full mb-4">
+                  <div className="overflow-x-auto py-1.5 flex-1 min-w-0">
+                    <div className="whitespace-nowrap">
+                      {url}
+                    </div>
                   </div>
+                  <CopyIcon
+                    className="h-4 w-4 flex-shrink-0 ml-2"
+                    onClick={async () => {
+                      await navigator.clipboard.writeText(url);
+                      toast.success(texts.copiedToClipboard);
+                    }}
+                  />
                 </div>
               )}
-
               <Button type="submit" className="uppercase" disabled={loading}>
                 {loading ? texts.baseLoading : texts.shortNow}
               </Button>
