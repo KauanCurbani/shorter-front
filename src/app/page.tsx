@@ -21,9 +21,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
+import { CopyIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
+  const [url, setUrl] = useState<string | null>(null);
   const { texts } = useLanguage();
   const router = useRouter();
   const schema = z.object({
@@ -40,19 +43,19 @@ export default function Home() {
 
   const onSubmit = form.handleSubmit(async () => {
     try {
-      
       setLoading(true);
       const response = await api.post("/api/short-url", {
         url: form.getValues().link,
       });
       const { id } = response.data;
-      await navigator.clipboard.writeText(`https://short.curbanii.net/r/${id}`);
-      toast.success(texts.copiedToClipboard);
+      const shortUrl = `${window.location.origin}/r/${id}`;
+      setUrl(shortUrl);
+      toast.success("Shortened successfully");
       setLoading(false);
-    } catch (e) { 
+    } catch (e) {
       setLoading(false);
-      if(e instanceof AxiosError) toast.error(e.response?.data.message);
-      else toast.error(`${e}`)
+      if (e instanceof AxiosError) toast.error(e.response?.data.message);
+      else toast.error(`${e}`);
     }
   });
 
@@ -92,6 +95,22 @@ export default function Home() {
                   </FormItem>
                 )}
               />
+              {url && (
+                <div className="w-full flex flex-col items-start mb-4">
+                  <Label>Your link:</Label>
+                  <div className=" bg-muted px-2 py-1.5 rounded-md border flex gap-2 items-center text-sm w-full justify-between">
+                    {url}
+                    <CopyIcon
+                      className="h-4 w-4"
+                      onClick={async () => {
+                        await navigator.clipboard.writeText(url);
+                        toast.success(texts.copiedToClipboard);
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
               <Button type="submit" className="uppercase" disabled={loading}>
                 {loading ? texts.baseLoading : texts.shortNow}
               </Button>
