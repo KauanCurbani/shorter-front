@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: tParams }) {
   
   const [ response ] = await Promise.all([
     api.get(`/api/short-url/${id}`),
-    api.get(`/api/short-url/${id}/consume`)
+    api.get(`/api/short-url/consume/${id}`)
   ]) 
   
   if (response.data.url) {
