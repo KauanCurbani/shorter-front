@@ -16,14 +16,12 @@ import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/sonner";
 import { useLanguage } from "@/internalization/context";
 import { LanguageSelector } from "@/internalization/language-selector";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { toast } from "sonner";
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 import { CopyIcon } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
