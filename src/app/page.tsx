@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
+import { AxiosError } from "axios";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -38,14 +39,21 @@ export default function Home() {
   });
 
   const onSubmit = form.handleSubmit(async () => {
-    setLoading(true);
-    const response = await api.post("/api/short-url", {
-      url: form.getValues().link,
-    });
-    const {  id } = response.data;
-    await navigator.clipboard.writeText(`https://short.curbanii.net/r/${id}`);
-    toast.success(texts.copiedToClipboard);
-    setLoading(false);
+    try {
+      
+      setLoading(true);
+      const response = await api.post("/api/short-url", {
+        url: form.getValues().link,
+      });
+      const { id } = response.data;
+      await navigator.clipboard.writeText(`https://short.curbanii.net/r/${id}`);
+      toast.success(texts.copiedToClipboard);
+      setLoading(false);
+    } catch (e) { 
+      setLoading(false);
+      if(e instanceof AxiosError) toast.error(e.response?.data.message);
+      else toast.error(`${e}`)
+    }
   });
 
   return (
