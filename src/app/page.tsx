@@ -22,6 +22,7 @@ import { CopyIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Logo } from "@/components/logo";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,7 @@ export default function Home() {
       });
       const { id } = response.data;
       const shortUrl = `${window.location.origin}/r/${id}`;
-      setUrl(shortUrl.replace("https://", "").replace("http://", ""));
+      setUrl(shortUrl);
       toast.success(texts.shortenSuccess);
       setLoading(false);
     } catch (e) {
@@ -61,7 +62,7 @@ export default function Home() {
   return (
     <>
       <div className="flex border-b bg-background p-4 w-full justify-between items-center fixed top-0 left-0 right-0">
-        <span>logo</span>
+        <Logo />
         <LanguageSelector />
       </div>
       <div className="min-h-dvh flex flex-col justify-center items-center">
